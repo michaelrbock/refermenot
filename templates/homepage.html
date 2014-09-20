@@ -17,20 +17,21 @@
 	</div>
 </div>
 
-
+{% for company in companies %}
 
 <div class="media">
 
       <div class="media">
-		  <a class="pull-left" href="/c/uber/">
-		    <img class="media-object company_logo" src="http://www.techfaster.com/wp-content/uploads/2014/07/Uber-Logo.png" alt="uber">
+		  <a class="pull-left" href="/c/{{company}}/">
+		    <img class="media-object company_logo" src="https://s3.amazonaws.com/julianpublicbucket/{{company}}.jpg" alt="uber">
 		  </a>
 		  <div class="media-body">
-		    <h4 class="media-heading">Uber</h4>
+		    <h4 class="media-heading">{{company}}</h4>
 		    3 of your friends use this service
 		  </div>
 		</div>
 
 </div>
+{%endfor %}
 
 {% endblock %}

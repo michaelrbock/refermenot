@@ -35,16 +35,18 @@ class MainHandler(BaseHandler):
 
 class HomepageHandler(BaseHandler):
     def get(self):
-        self.render('homepage.html')
+        companies = ['airbnb', 'uber', 'dropbox', 'lyft', 'venmo']
+        self.render('homepage.html', companies=companies)
 
 
 class UserPage(BaseHandler):
-    def get(self, username):
+    def get(self):
         self.render('topsite.html')
 
 class CompanyPage(BaseHandler):
-    def get(self, username):
-        self.render('company_page.html')
+    def get(self, company):
+
+        self.render('company_page.html', company=company.lower())
 
 
 app = webapp2.WSGIApplication([
