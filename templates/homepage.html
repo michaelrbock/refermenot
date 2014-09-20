@@ -26,8 +26,8 @@
 		    <img class="media-object company_logo" src="https://s3.amazonaws.com/julianpublicbucket/{{company}}.jpg" alt="uber">
 		  </a>
 		  <div class="media-body">
-		    <h4 class="media-heading">{{company}}</h4>
-		    3 of your friends use this service
+		    <h4 class="media-heading">{{ company.title()}}</h4>
+		    {{loop.index}} of your friends use this service
 		  </div>
 		</div>
 
