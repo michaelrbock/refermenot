@@ -29,7 +29,7 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.render('index.html')
 
 
 class UserHandler(BaseHandler):
@@ -53,8 +53,7 @@ class User(ndb.Model):
     # key = fb user id
     full_name = ndb.StringProperty(required=True)
     friends = ndb.StringProperty(repeated=True)
-    # serialize JSON here
-    # format:
+    # serialize JSON here, format:
     # Array with Objects with service string and codes array
     services = ndb.TextProperty(default='[]')
 
