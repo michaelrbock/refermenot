@@ -1,189 +1,182 @@
-{% extends "base.html" %}
-{% block body %}
-  <img id="photoid" src=""></img>
-  <div id="userid"> test</div>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
 
-<script>
-  // This is called with the results from from FB.getLoginStatus().
-  function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
-    // for FB.getLoginStatus().
-    if (response.status === 'connected') {
-      document.getElementById('userid').innerHTML = 'Please log ' +
-        'into this app.';
-      testAPI();
-    } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
-    } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
-    }
-  }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
+    <title>Refer Me Not</title>
 
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '280104415523006',
-      xfbml      : true,
-      version    : 'v2.1'
-    });
-  };
+    <!-- Bootstrap Core CSS -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+    <!-- Custom CSS -->
+    <link href="static/css/landing-page.css" rel="stylesheet">
 
-  // Now that we've initialized the JavaScript SDK, we call
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
+    <!-- Custom Fonts -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
 
+<body>
 
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="">Refer Me Not</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/home"><span class="network-name"></span>Sign in</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
 
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+    <!-- Header -->
+    <div class="intro-header">
 
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+        <div class="container">
 
-        // document.getElementById('userid').innerHTML = response.name ;
-        document.getElementById('userid').innerHTML = response.id ;
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Get Free $$</h1>
+                        <h3>Find all of your friend's referral codes</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                                <a href="/home" class="btn btn-default btn-lg"><i class="fa fa-facebook-square fa-fw"></i> <span class="network-name">Sign in with Facebook</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
 
+    </div>
+    <!-- /.intro-header -->
 
+    <!-- Page Content -->
 
+    <div class="content-section-a">
 
+        <div class="container">
 
-    });
-    FB.api('/me/picture', function(response) {
-      $("#photoid").attr("src", response.data.url);
-    });
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">All of your friend's referral codes in one place</h2>
+                    <p class="lead">Every time you sign up for a new service, invite Refer Me Not, and allow all your friends to use your codes!</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6" id="">
+                    <img class="img-responsive" src="/static/img/concert.jpg" alt="">
+                </div>
+            </div>
 
+        </div>
+        <!-- /.container -->
 
+    </div>
+    <!-- /.content-section-a -->
 
+    <div class="content-section-b">
 
-  }
+        <div class="container">
 
- // (function(d, s, id) {
- //    var js, fjs = d.getElementsByTagName(s)[0];
- //    if (d.getElementById(id)) return;
- //    js = d.createElement(s); js.id = id;
- //    js.src = "//connect.facebook.net/en_US/sdk.js";
- //    fjs.parentNode.insertBefore(js, fjs);
- //  }(document, 'script', 'facebook-jssdk'));
- // // Here we run a very simple test of the Graph API after login is
- //  // successful.  See statusChangeCallback() for when this call is made.
- //  function testAPI() {
- //    console.log('Welcome!  Fetching your information.... ');
- //    FB.api('/me/picture', function(response) {
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">Never get stuck paying full price again</h2>
+                    <p class="lead">Signing up for a new service? Check Refer Me Not to save money using one of your friend's codes!</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive" src="/static/img/taxi.jpg" alt="">
+                </div>
+            </div>
 
+        </div>
+        <!-- /.container -->
 
- //        function changeImage(img) {
- //            document.getElementById("photoid").src = response.url;
- //        }
+    </div>
+    <!-- /.content-section-b -->
 
+    <div class="banner">
 
+        <div class="container">
 
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Find all of your friend's referral codes</h2>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="list-inline banner-social-buttons">
+                        <li>
+                            <a href="/submit" class="btn btn-default btn-lg"><i class="fa fa-facebook-square fa-fw"></i> <span class="network-name">Sign in with Facebook</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
+        </div>
+        <!-- /.container -->
 
- //    });
- //  }
+    </div>
+    <!-- /.banner -->
 
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">&sdot;</li>
+                        <li>
+                            <a href="">About</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright &copy; ReferMeNot 2014. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-</script>
+    <!-- jQuery Version 1.11.0 -->
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+</body>
 
-</script>
-
-
-
-<script>
-FB.login(function(){}, {scope: 'publish_actions'});
-
-
-// var hiddenBox = $( "#loggedin" );
-$( "#userid" ).on( "click", function( event ) {
-      console.log($( this ).text());
-
-      $.post('/test/user/' + $( this ).text(), {
-      }, function(data) {
-        console.log(data);
-
-      });
-      return false;
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-
-
-
-
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-</fb:login-button>
-
-<div id="status">
-</div>
-
-{% endblock %}
+</html>
