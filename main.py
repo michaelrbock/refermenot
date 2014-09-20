@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-import webapp2
+import db
 import jinja2
 import json
 import os
 import urllib2
+import webapp2
 
 from google.appengine.ext import ndb
 from google.appengine.api import urlfetch
@@ -32,34 +33,6 @@ class MainHandler(BaseHandler):
         self.render('index.html')
 
 
-class UserHandler(BaseHandler):
-    def post(self):
-        fb_id = self.request.get('fb_id')
-
-        # create new user
-        new_user = User(id=fb_id, full_name='Michael B')
-
-        new_user.put()
-
-    def get(self, id):
-        user_key = ndb.Key(User, id)
-        user = user_key.get()
-
-        self.write(user)
-
-
-
-class User(ndb.Model):
-    # key = fb user id
-    full_name = ndb.StringProperty(required=True)
-    friends = ndb.StringProperty(repeated=True)
-    # serialize JSON here, format:
-    # Array with Objects with service string and codes array
-    services = ndb.TextProperty(default='[]')
-
-
 app = webapp2.WSGIApplication([
     ('/?', MainHandler),
-    ('/user/?', UserHandler),
-    ('/user/([0-9]+)/?', UserHandler)
 ], debug=True)
