@@ -99,19 +99,12 @@
 
     });
     FB.api('/me/picture', function(response) {
-      console.log("picture next");
-      // console.log(response["url"]);
-
-
-        function changeImage(img) {
-            document.getElementById("photoid").src = response.url;
-        }
-
-
-
-
-
+      $("#photoid").attr("src", response.data.url);
     });
+
+
+
+
   }
 
  // (function(d, s, id) {

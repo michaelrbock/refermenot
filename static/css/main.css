@@ -1,0 +1,13 @@
+body {
+	background-color: #eaeff4
+}
+
+
+.company_logo {
+/*	max-height: 100px;
+	max-width: 100px;
+	min-height: 50px;
+	min-width: 50px;*/
+	width:100px;height:100px;overflow:hidden;
+	border-radius: 100%;
+}

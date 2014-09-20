@@ -33,6 +33,23 @@ class MainHandler(BaseHandler):
         self.render('index.html')
 
 
+class HomepageHandler(BaseHandler):
+    def get(self):
+        self.render('homepage.html')
+
+
+class UserPage(BaseHandler):
+    def get(self, username):
+        self.render('topsite.html')
+
+class CompanyPage(BaseHandler):
+    def get(self, username):
+        self.render('company_page.html')
+
+
 app = webapp2.WSGIApplication([
     ('/?', MainHandler),
+    ('/home?', HomepageHandler),
+    ('/([a-zA-Z0-9_]+)/?', UserPage),
+    ('/c/([a-zA-Z0-9_]+)/?', CompanyPage),
 ], debug=True)
