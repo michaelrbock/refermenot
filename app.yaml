@@ -12,7 +12,10 @@ handlers:
 - url: /static
   static_dir: static
 
-- url: /user/?.*
+- url: /services/?.*
+  script: db.app
+
+- url: /users/?.*
   script: db.app
 
 - url: /
