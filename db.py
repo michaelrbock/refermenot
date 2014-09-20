@@ -37,11 +37,49 @@ class UserHandler(BaseHandler):
             self.error(404)
             return
 
-        self.write(user)
+        user_dict = {}
+        user_dict['fb_id'] = user.key.id()
+        user_dict['friends'] = user.friends
+        user_dict['services'] = user.services
+
+        self.write(json.dumps(user_dict))
 
 
-class CodeHandler(BaseHandler):
-    pass
+class AllServicesHandler(BaseHandler):
+    def get(self, fb_id):
+        user = ndb.Key(User, fb_id).get()
+        if not user:
+            self.error(404)
+            return
+
+        self.write(user.services)
+
+
+class ServiceHandler(BaseHandler):
+    def get(self, fb_id, service):
+        user = ndb.Key(User, fb_id).get()
+        if not user:
+            self.error(404)
+            return
+        services_dict = json.loads(user.services)
+
+        codes = services_dict.get(service, '[]')
+        self.write(json.dumps(codes))
+
+    def post(self, fb_id, service):
+        user = ndb.Key(User, fb_id).get()
+        if not user:
+            self.error(404)
+            return
+
+        services_dict = json.loads(user.services)
+        if service in services_dict:
+            services_dict[service].append(code)
+        else:
+            services_dict[service] = [self.request.get('code')]
+        user.services = json.dumps(services_dict)
+        user.put()
+
 
 
 class User(ndb.Model):
@@ -50,10 +88,11 @@ class User(ndb.Model):
     friends = ndb.StringProperty(repeated=True)
     # serialize JSON here, format:
     # Array with Objects with service string and codes array
-    services = ndb.TextProperty(default='[]')
+    services = ndb.TextProperty(default='{}')
 
 
 app = webapp2.WSGIApplication([
-    ('/user/([0-9]+)/?', UserHandler),
-    ('/user/([0-9]+)/code/([a-zA-Z0-9_-]+)/?', CodeHandler)
+    ('/users/([0-9]+)/?', UserHandler),
+    ('/users/([0-9]+)/services/?', AllServicesHandler),
+    ('/users/([0-9]+)/services/([a-zA-Z0-9!_-]+)/?', ServiceHandler)
 ], debug=True)
