@@ -77,7 +77,7 @@ class FriendHandler(BaseHandler):
         user.put()
 
 
-class AllServicesHandler(BaseHandler):
+class AllUserServicesHandler(BaseHandler):
     def get(self, fb_id):
         user = ndb.Key(User, fb_id).get()
         if not user:
@@ -98,18 +98,18 @@ def sanitize(s):
     return s
 
 
-class ServiceHandler(BaseHandler):
-    def get(self, fb_id, service):
+class UserServiceHandler(BaseHandler):
+    def get(self, fb_id, service_id):
         user = ndb.Key(User, fb_id).get()
         if not user:
             self.error(404)
             return
         services_dict = json.loads(user.services)
 
-        codes = services_dict.get(service, '[]')
+        codes = services_dict.get(service_id, [])
         self.write(json.dumps(codes))
 
-    def post(self, fb_id, service):
+    def post(self, fb_id, service_id):
         user = ndb.Key(User, fb_id).get()
         if not user:
             self.error(404)
@@ -117,13 +117,36 @@ class ServiceHandler(BaseHandler):
 
         services_dict = json.loads(user.services)
         code = sanitize(self.request.get('code'))
-        if service in services_dict:
-            services_dict[service].append(code)
+        if not code:
+            return
+        if service_id in services_dict:
+            codes = services_dict[service_id]
+            codes.append(code)
+            services_dict[service_id] = list(set(codes))
         else:
-            services_dict[service] = [code]
+            services_dict[service_id] = [code]
         user.services = json.dumps(services_dict)
         user.put()
 
+        service = ndb.Key(Service, service_id).get()
+        if not service:
+            service = Service(id=service_id, codes=json.dumps([code]))
+        else:
+            codes = json.loads(service.codes)
+            codes.append(code)
+            service.codes = json.dumps(list(set(codes)))
+            service.put()
+        service.put()
+
+
+class ServiceHandler(BaseHandler):
+    def get(self, service_id):
+        service = ndb.Key(Service, service_id).get()
+        if not service:
+            self.error(404)
+            return
+
+        self.write(service.codes)
 
 
 class User(ndb.Model):
@@ -135,9 +158,14 @@ class User(ndb.Model):
     services = ndb.TextProperty(default='{}')
 
 
+class Service(ndb.Model):
+    codes = ndb.TextProperty(default='[]')
+
+
 app = webapp2.WSGIApplication([
     ('/users/([0-9]+)/?', UserHandler),
     ('/users/([0-9]+)/friends/?', FriendHandler),
-    ('/users/([0-9]+)/services/?', AllServicesHandler),
-    ('/users/([0-9]+)/services/([a-zA-Z0-9!_-]+)/?', ServiceHandler)
+    ('/users/([0-9]+)/services/?', AllUserServicesHandler),
+    ('/users/([0-9]+)/services/([a-zA-Z0-9!_-]+)/?', UserServiceHandler),
+    ('/services/([a-zA-Z0-9!_-]+)/?', ServiceHandler)
 ], debug=True)
