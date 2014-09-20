@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Facebook Login JavaScript Example</title>
-<meta charset="UTF-8">
-</head>
-<body>
-  test
+{% extends "base.html" %}
+{% block body %}
+  <img id="photoid" src=""></img>
+  <div id="userid"> test</div>
 
 
 <script>
@@ -18,7 +14,8 @@
     // Full docs on the response object can be found in the documentation
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
-      // Logged into your app and Facebook.
+      document.getElementById('userid').innerHTML = 'Please log ' +
+        'into this app.';
       testAPI();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -93,6 +90,22 @@
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
 
+        // document.getElementById('userid').innerHTML = response.name ;
+        document.getElementById('userid').innerHTML = response.id ;
+
+
+
+
+
+    });
+    FB.api('/me/picture', function(response) {
+      console.log("picture next");
+      // console.log(response["url"]);
+
+
+        function changeImage(img) {
+            document.getElementById("photoid").src = response.url;
+        }
 
 
 
@@ -100,7 +113,73 @@
 
     });
   }
+
+ // (function(d, s, id) {
+ //    var js, fjs = d.getElementsByTagName(s)[0];
+ //    if (d.getElementById(id)) return;
+ //    js = d.createElement(s); js.id = id;
+ //    js.src = "//connect.facebook.net/en_US/sdk.js";
+ //    fjs.parentNode.insertBefore(js, fjs);
+ //  }(document, 'script', 'facebook-jssdk'));
+ // // Here we run a very simple test of the Graph API after login is
+ //  // successful.  See statusChangeCallback() for when this call is made.
+ //  function testAPI() {
+ //    console.log('Welcome!  Fetching your information.... ');
+ //    FB.api('/me/picture', function(response) {
+
+
+ //        function changeImage(img) {
+ //            document.getElementById("photoid").src = response.url;
+ //        }
+
+
+
+
+
+ //    });
+ //  }
+
+
 </script>
+
+
+
+</script>
+
+
+
+<script>
+FB.login(function(){}, {scope: 'publish_actions'});
+
+
+// var hiddenBox = $( "#loggedin" );
+$( "#userid" ).on( "click", function( event ) {
+      console.log($( this ).text());
+
+      $.post('/test/user/' + $( this ).text(), {
+      }, function(data) {
+        console.log(data);
+
+      });
+      return false;
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
 
 <!--
   Below we include the Login Button social plugin. This button uses
@@ -114,5 +193,4 @@
 <div id="status">
 </div>
 
-</body>
-</html>
+{% endblock %}
