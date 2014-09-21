@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
 import db
+import itertools as it
 import jinja2
 import json
 import os
+import random
+import string
 import urllib2
 import webapp2
 
 from google.appengine.ext import ndb
-from google.appengine.api import urlfetch
 
 
 jinja_environment = jinja2.Environment(autoescape=True,
@@ -43,10 +45,13 @@ class UserPage(BaseHandler):
     def get(self):
         self.render('topsite.html')
 
+
 class CompanyPage(BaseHandler):
     def get(self, company):
-
-        self.render('company_page.html', company=company.lower())
+        code1 = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(5))
+        code2 = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(5))
+        self.render('company_page.html', company=company.lower(),
+            code1=code1, code2=code2)
 
 
 app = webapp2.WSGIApplication([
